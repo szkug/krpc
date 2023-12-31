@@ -83,7 +83,7 @@ class KrpcServiceGenerator(
                     addStatement("%S -> $functionName($decode)", rpc.name)
                 }
                 val exception = IllegalStateException::class.asClassName()
-                addStatement("""else -> throw ${exception.packageName}.${exception.simpleName}("Illegal function name \$name")""")
+                addStatement("else -> throw ${exception.packageName}.${exception.simpleName}(\"Illegal function name \$name\")")
                 endControlFlow()
 
                 addStatement("return response.encode()")
