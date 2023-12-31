@@ -82,6 +82,8 @@ class KrpcServiceGenerator(
 
                     addStatement("%S -> $functionName($decode)", rpc.name)
                 }
+                val exception = IllegalStateException::class.asClassName()
+                addStatement("""else -> throw ${exception.packageName}.${exception.simpleName}("Illegal function name $name")""")
                 endControlFlow()
 
                 addStatement("return response.encode()")
@@ -94,6 +96,7 @@ class KrpcServiceGenerator(
             if (role == KrpcRole.Server) {
                 addModifiers(KModifier.ABSTRACT)
                 createServerMapFunc().also { func -> addFunction(func) }
+                addProperty(PropertySpec.builder("serverName", STRING).initializer(serviceName).build())
             } else {
 
                 val callType = LambdaTypeName.get(
