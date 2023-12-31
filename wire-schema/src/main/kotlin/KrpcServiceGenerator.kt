@@ -6,8 +6,6 @@ import com.squareup.wire.schema.*
 import com.squareup.wire.schema.internal.javaPackage
 import okio.ByteString
 
-private val BYTE_STRING = ByteString::class.asClassName()
-
 class KrpcServiceGenerator(
     schema: Schema,
     private val profile: Profile,
@@ -72,9 +70,9 @@ class KrpcServiceGenerator(
                 addModifiers(KModifier.FINAL)
                 addModifiers(KModifier.SUSPEND)
 
-                addParameter("request", BYTE_STRING)
+                addParameter("request", BYTE_ARRAY)
                 addParameter("name", STRING)
-                returns(BYTE_STRING)
+                returns(BYTE_ARRAY)
 
                 beginControlFlow("val response = when(name)")
                 for (rpc in service.rpcs) {
@@ -102,8 +100,8 @@ class KrpcServiceGenerator(
             } else {
 
                 val callType = LambdaTypeName.get(
-                    parameters = arrayOf(STRING, STRING, BYTE_STRING), // serviceName, functionName, request
-                    returnType = BYTE_STRING
+                    parameters = arrayOf(STRING, STRING, BYTE_ARRAY), // serviceName, functionName, request
+                    returnType = BYTE_ARRAY
                 ).copy(suspending = true)
                 val constructor = FunSpec.constructorBuilder().addParameter("call", callType).build()
                 primaryConstructor(constructor)
