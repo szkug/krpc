@@ -92,6 +92,7 @@ class KrpcServiceGenerator(
             addSuperinterface(interfaceName)
 
             if (role == KrpcRole.Server) {
+                addModifiers(KModifier.ABSTRACT)
                 createServerMapFunc().also { func -> addFunction(func) }
             } else {
 
