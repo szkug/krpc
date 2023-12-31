@@ -59,7 +59,7 @@ class KrpcServiceGenerator(
                 addParameter(rpcParamName, req.typeName)
                 returns(resp.typeName)
 
-                addStatement("val bytes = ${rpcParamName}.encodeByteString()")
+                addStatement("val bytes = ${rpcParamName}.encode()")
                 addStatement("val response = call(%S, %S, bytes)", serviceName, rpc.name)
                 addStatement("return ${resp.simpleName}.ADAPTER.decode(response)")
             }.build()
@@ -86,7 +86,7 @@ class KrpcServiceGenerator(
                 addStatement("else -> throw ${exception.packageName}.${exception.simpleName}(\"Illegal function name \$name\")")
                 endControlFlow()
 
-                addStatement("return response.encodeByteString()")
+                addStatement("return response.encode()")
             }.build()
         }
 
