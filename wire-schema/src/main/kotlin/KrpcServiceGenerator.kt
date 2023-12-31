@@ -96,7 +96,7 @@ class KrpcServiceGenerator(
             if (role == KrpcRole.Server) {
                 addModifiers(KModifier.ABSTRACT)
                 createServerMapFunc().also { func -> addFunction(func) }
-                addProperty(PropertySpec.builder("serverName", STRING).initializer(serviceName).build())
+                addProperty(PropertySpec.builder("serverName", STRING).initializer("%S", serviceName).build())
             } else {
 
                 val callType = LambdaTypeName.get(
