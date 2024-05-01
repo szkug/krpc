@@ -2,7 +2,9 @@ package org.szkug.krpc.plugin
 
 import com.squareup.wire.schema.SchemaHandler
 
-class KrpcSchemaHandlerFactory: SchemaHandler.Factory {
+class KrpcSchemaHandlerFactory private constructor(
+    private val role: KrpcRole
+): SchemaHandler.Factory {
     @Deprecated("Wire does not call this method anymore. Implement the other 'create' method to receive the payload associated with the schema handler.")
     override fun create(): SchemaHandler {
         TODO("Not yet implemented")
@@ -15,7 +17,12 @@ class KrpcSchemaHandlerFactory: SchemaHandler.Factory {
         outDirectory: String,
         options: Map<String, String>
     ): SchemaHandler {
-        val role = if (options["rpcRole"] == "server") KrpcRole.Server else KrpcRole.Client
         return KrpcSchemaHandler(outDirectory, role)
+    }
+
+    companion object {
+
+        fun client() = KrpcSchemaHandlerFactory(KrpcRole.Client)
+        fun server() = KrpcSchemaHandlerFactory(KrpcRole.Server)
     }
 }
