@@ -9,4 +9,5 @@ kotlin {
 dependencies {
     implementation(libs.wire.schema)
     implementation(libs.wire.kotlin.generator)
+    implementation(projects.krpcRuntime)
 }

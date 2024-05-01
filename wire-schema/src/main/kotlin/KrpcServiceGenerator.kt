@@ -5,6 +5,7 @@ import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.wire.schema.*
 import com.squareup.wire.schema.internal.javaPackage
 import okio.ByteString
+import org.szkug.krpc.service.Call
 
 class KrpcServiceGenerator(
     schema: Schema,
@@ -99,10 +100,7 @@ class KrpcServiceGenerator(
                 addProperty(PropertySpec.builder("serverName", STRING).initializer("%S", serviceName).build())
             } else {
 
-                val callType = LambdaTypeName.get(
-                    parameters = arrayOf(STRING, STRING, BYTE_ARRAY), // serviceName, functionName, requestData
-                    returnType = BYTE_ARRAY
-                ).copy(suspending = true)
+                val callType = Call::class
                 val constructor = FunSpec.constructorBuilder().addParameter("call", callType).build()
                 primaryConstructor(constructor)
 
@@ -128,7 +126,7 @@ class KrpcServiceGenerator(
         val name = service.interfaceName
 
         val builder = TypeSpec.interfaceBuilder(name).apply {
-            addSuperinterface(com.squareup.wire.Service::class)
+            addSuperinterface(org.szkug.krpc.service.Service::class)
 
             if (service.documentation.isNotBlank()) {
                 addKdoc("%L\n", service.documentation.sanitizeKdoc())
