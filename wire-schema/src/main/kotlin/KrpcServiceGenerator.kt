@@ -46,7 +46,7 @@ class KrpcServiceGenerator(
     fun generateServiceImpl(service: Service, role: KrpcRole): Pair<ClassName, TypeSpec> {
         val interfaceName = service.interfaceName
         val name = interfaceName.implementName
-        val serviceName = interfaceName.canonicalName
+        val serviceName = interfaceName.simpleName
 
         fun createClientProxyFunc(rpc: Rpc): FunSpec {
             return FunSpec.builder(rpc.name).apply {
@@ -100,11 +100,13 @@ class KrpcServiceGenerator(
             } else {
 
                 val callType = LambdaTypeName.get(
-                    parameters = arrayOf(STRING, STRING, BYTE_ARRAY), // serviceName, functionName, request
+                    parameters = arrayOf(STRING, STRING, BYTE_ARRAY), // serviceName, functionName, requestData
                     returnType = BYTE_ARRAY
                 ).copy(suspending = true)
                 val constructor = FunSpec.constructorBuilder().addParameter("call", callType).build()
                 primaryConstructor(constructor)
+
+                addKdoc("serviceName, functionName, requestData")
 
                 val callProperty = PropertySpec.builder("call", callType)
                     .initializer("call")
