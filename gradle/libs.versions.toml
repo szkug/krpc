@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.21"
+kotlin = "1.9.23"
 wire = "4.9.3"
 
 [libraries]
