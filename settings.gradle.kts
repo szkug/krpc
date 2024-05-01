@@ -9,3 +9,4 @@ pluginManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 include("wire-schema")
+include("krpc-runtime")
