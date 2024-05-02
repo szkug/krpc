@@ -12,6 +12,7 @@ wire-kotlin-generator = { module = "com.squareup.wire:wire-kotlin-generator", ve
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 wire = { id="com.squareup.wire", version.ref = "wire" }
 
 [bundles]
