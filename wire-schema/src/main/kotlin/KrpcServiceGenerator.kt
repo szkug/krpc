@@ -124,6 +124,7 @@ class KrpcServiceGenerator(
                 val createFunction = FunSpec.builder(ServiceFactory<*>::create.name).apply {
                     addModifiers(KModifier.OVERRIDE)
                     addParameter(ParameterSpec("call", Call::class.asTypeName()))
+                    returns(interfaceName)
                     addStatement("return ${name.simpleName}(call)")
                 }.build()
                 val factoryObject = TypeSpec.objectBuilder("Factory")
