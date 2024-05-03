@@ -6,6 +6,7 @@ import com.squareup.wire.schema.*
 import com.squareup.wire.schema.internal.javaPackage
 import okio.ByteString
 import org.szkug.krpc.service.Call
+import org.szkug.krpc.service.ServiceFactory
 
 class KrpcServiceGenerator(
     schema: Schema,
@@ -115,6 +116,25 @@ class KrpcServiceGenerator(
                 for (rpc in service.rpcs) {
                     createClientProxyFunc(rpc).also { func -> addFunction(func) }
                 }
+
+                /**
+                 * object Factory: ServiceFactory<Service> {
+                 *     override fun get(call): Service = ServiceImpl(call)
+                 * }
+                 */
+                val createFunction = FunSpec.builder(ServiceFactory<*>::create.name).apply {
+                    addModifiers(KModifier.OVERRIDE)
+                    addParameters(ServiceFactory<*>::create.parameters.map {
+                        ParameterSpec(it.name!!, it.type.asTypeName())
+                    })
+                    addStatement("return $name(call)")
+                }.build()
+                val factoryObject = TypeSpec.objectBuilder("Factory")
+                    .addSuperinterface(ServiceFactory::class.asClassName().parameterizedBy(interfaceName))
+                    .addFunction(createFunction)
+                    .build()
+
+                addType(factoryObject)
             }
         }
 
