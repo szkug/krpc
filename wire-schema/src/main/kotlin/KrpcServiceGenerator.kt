@@ -105,8 +105,6 @@ class KrpcServiceGenerator(
                 val constructor = FunSpec.constructorBuilder().addParameter("call", callType).build()
                 primaryConstructor(constructor)
 
-                addKdoc("serviceName, functionName, requestData")
-
                 val callProperty = PropertySpec.builder("call", callType)
                     .initializer("call")
                     .addModifiers(KModifier.PRIVATE)
@@ -118,6 +116,7 @@ class KrpcServiceGenerator(
                 }
 
                 /**
+                 * # class ServiceImpl(call)
                  * object Factory: ServiceFactory<Service> {
                  *     override fun get(call): Service = ServiceImpl(call)
                  * }
@@ -125,7 +124,7 @@ class KrpcServiceGenerator(
                 val createFunction = FunSpec.builder(ServiceFactory<*>::create.name).apply {
                     addModifiers(KModifier.OVERRIDE)
                     addParameter(ParameterSpec("call", Call::class.asTypeName()))
-                    addStatement("return $name(call)")
+                    addStatement("return ${name.simpleName}(call)")
                 }.build()
                 val factoryObject = TypeSpec.objectBuilder("Factory")
                     .addSuperinterface(ServiceFactory::class.asClassName().parameterizedBy(interfaceName))
