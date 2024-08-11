@@ -7,15 +7,20 @@ kotlin {
     jvmToolchain(17)
 }
 
+val versionSuffix = properties["publish.versioins.suffix"] as String
+val schemaVersion = properties["publish.versioins.schema"] as String
+val pluginVersion = properties["publish.versioins.plugin"] as String
+
+version = "$pluginVersion-$versionSuffix"
+
 dependencies {
     compileOnly(libs.gradle.plugin.kotlin)
     implementation(libs.gradle.plugin.wire)
     implementation(libs.wire.schema)
     implementation(projects.schema)
-}
 
-group = "org.szkug.krpc"
-version = "1.0.0-unk"
+    implementation("org.szkug.krpc:schema:$schemaVersion-$versionSuffix")
+}
 
 gradlePlugin {
     website.set("https://github.com/szkug/krpc")

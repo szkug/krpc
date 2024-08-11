@@ -32,7 +32,7 @@ class KrpcPlugin : Plugin<Project> {
         configure<KotlinMultiplatformExtension> {
             sourceSets.apply {
                 commonMain.dependencies {
-                    //implementation("org.szkug.krpc:runtime")
+                    implementation("org.szkug.krpc:runtime:1.0.0-unk-local")
                 }
             }
         }
