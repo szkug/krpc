@@ -1,2 +1,2 @@
-# krpc-wire-plugin
+# krpc-plugin
 A KMP RPC support wire custom handler plugin
