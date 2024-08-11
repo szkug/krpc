@@ -8,5 +8,6 @@ pluginManagement {
 // gradle feature
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-include("wire-schema")
-include("krpc-runtime")
+include("schema")
+include("runtime")
+include("plugin")
