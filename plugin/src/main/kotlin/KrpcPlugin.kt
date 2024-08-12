@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.szkug.krpc.plugin.KrpcSchemaHandlerFactory
 
 /**
- * @PluginId org.szkug.krpc
+ * @PluginId cn.szkug.krpc
  */
 class KrpcPlugin : Plugin<Project> {
 
@@ -30,9 +30,12 @@ class KrpcPlugin : Plugin<Project> {
         }
 
         configure<KotlinMultiplatformExtension> {
+            val lastRuntimeVersion = properties["publish.versions.runtime"] as String
+            val publishGroup = properties["publish.group"] as String
+
             sourceSets.apply {
                 commonMain.dependencies {
-                    implementation("org.szkug.krpc:runtime:1.0.0-unk-local")
+                    implementation("$publishGroup:runtime:$lastRuntimeVersion")
                 }
             }
         }

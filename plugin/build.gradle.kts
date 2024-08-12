@@ -7,19 +7,18 @@ kotlin {
     jvmToolchain(17)
 }
 
-val versionSuffix = properties["publish.versioins.suffix"] as String
-val schemaVersion = properties["publish.versioins.schema"] as String
-val pluginVersion = properties["publish.versioins.plugin"] as String
+val schemaVersion = properties["publish.versions.schema"] as String
+val pluginVersion = properties["publish.versions.plugin"] as String
+val publishGroup = properties["publish.group"] as String
 
-version = "$pluginVersion-$versionSuffix"
+version = pluginVersion
+group = publishGroup
 
 dependencies {
     compileOnly(libs.gradle.plugin.kotlin)
     implementation(libs.gradle.plugin.wire)
     implementation(libs.wire.schema)
     implementation(projects.schema)
-
-    implementation("org.szkug.krpc:schema:$schemaVersion-$versionSuffix")
 }
 
 gradlePlugin {
@@ -28,7 +27,7 @@ gradlePlugin {
 
     plugins {
         register("KrpcPlugin") {
-            id = "org.szkug.krpc"
+            id = publishGroup
             implementationClass = "KrpcPlugin"
             displayName = "Krpc Plugin"
             description = "generate kotlin multiplatform code from .proto files base on wire"

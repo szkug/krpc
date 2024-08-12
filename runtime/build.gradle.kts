@@ -25,25 +25,28 @@ val javadocJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
 }
 
-val versionSuffix = properties["publish.versioins.suffix"]
-val runtimeVersion = properties["publish.versioins.runtime"] as String
+val runtimeVersion = properties["publish.versions.runtime"] as String
+val publishGroup = properties["publish.group"] as String
+
+version = runtimeVersion
+group = publishGroup
 
 mavenPublishing {
 
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
 
-    coordinates("org.szkug.krpc", "runtime", "$runtimeVersion-$versionSuffix")
+    coordinates(publishGroup, "runtime", runtimeVersion)
 
     pom {
         name = "Krpc Runtime"
         description = "generate kotlin multiplatform code from .proto files base on wire"
-        url.set("https://github.com/KaterinaPetrova/mpp-sample-lib")
+        url.set("https://github.com/szkug/krpc")
 
         licenses {
             license {
                 name = "The Apache License, Version 2.0"
-                url = "https://github.com/szkug/krpc-plugin/blob/main/LICENSE"
+                url = "https://github.com/szkug/krpc/blob/main/LICENSE"
             }
         }
 
@@ -56,10 +59,9 @@ mavenPublishing {
         }
 
         scm {
-            url.set("https://github.com/szkug/krpc-plugin/")
-            connection.set("scm:git:git://github.com/szkug/krpc-plugin.git")
-            developerConnection.set("scm:git:ssh://git@github.com/szkug/krpc-plugin.git")
+            url.set("https://github.com/szkug/krpc/")
+            connection.set("scm:git:git://github.com/szkug/krpc.git")
+            developerConnection.set("scm:git:ssh://git@github.com/szkug/krpc.git")
         }
     }
-
 }
