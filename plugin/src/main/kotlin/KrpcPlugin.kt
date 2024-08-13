@@ -30,12 +30,9 @@ class KrpcPlugin : Plugin<Project> {
         }
 
         configure<KotlinMultiplatformExtension> {
-            val lastRuntimeVersion = properties["publish.versions.runtime"] as String
-            val publishGroup = properties["publish.group"] as String
-
             sourceSets.apply {
                 commonMain.dependencies {
-                    implementation("$publishGroup:runtime:$lastRuntimeVersion")
+                    implementation("cn.szkug.krpc:runtime:1.0.0")
                 }
             }
         }
