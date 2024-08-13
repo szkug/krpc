@@ -15,7 +15,7 @@ version = pluginVersion
 group = publishGroup
 
 dependencies {
-    compileOnly(libs.gradle.plugin.kotlin)
+    implementation(libs.gradle.plugin.kotlin)
     implementation(libs.gradle.plugin.wire)
     implementation(libs.wire.schema)
     implementation(projects.schema)
