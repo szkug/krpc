@@ -11,7 +11,7 @@ Krpc base on [wire](https://github.com/square/wire).
 ```Kotlin
 // build.gradle.kts
 plugins {
-    id("org.szkug.krpc") version "<version>"
+    id("cn.szkug.krpc") version "<version>"
 }
 
 wire {
